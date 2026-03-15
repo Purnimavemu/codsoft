@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>AI Chatbot</title>
+
+<style>
+
+body{
+font-family: Arial;
+background-image: url("https://images.unsplash.com/photo-1677442135136-760c813028c0");
+background-size: cover;
+background-position: center;
+text-align:center;
+}
+
+h2{
+color:white;
+}
+
+#chat-container{
+width:400px;
+margin:auto;
+background:white;
+border-radius:10px;
+padding:15px;
+box-shadow:0px 0px 10px gray;
+}
+
+#chatbox{
+height:300px;
+overflow-y:auto;
+text-align:left;
+margin-bottom:10px;
+}
+
+.user{
+color:blue;
+margin:5px;
+}
+
+.bot{
+color:green;
+margin:5px;
+}
+
+input{
+width:70%;
+padding:8px;
+}
+
+button{
+padding:8px 15px;
+background:#4CAF50;
+color:white;
+border:none;
+}
+
+.bot-icon{
+width:80px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Simple AI Chatbot</h2>
+
+<img class="bot-icon" src="https://cdn-icons-png.flaticon.com/512/4712/4712109.png">
+
+<div id="chat-container">
+
+<div id="chatbox"></div>
+
+<input type="text" id="userInput" placeholder="Type your message">
+<button onclick="sendMessage()">Send</button>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+let userText=document.getElementById("userInput").value;
+
+fetch("/get",{
+method:"POST",
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+body:"msg="+userText
+})
+
+.then(response=>response.json())
+.then(data=>{
+
+let chatbox=document.getElementById("chatbox");
+
+chatbox.innerHTML += "<p class='user'><b>You:</b> "+userText+"</p>";
+chatbox.innerHTML += "<p class='bot'><b>Bot:</b> "+data+"</p>";
+
+chatbox.scrollTop = chatbox.scrollHeight;
+
+document.getElementById("userInput").value="";
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
